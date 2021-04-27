@@ -38,7 +38,7 @@ The following figure shows GPU memory cost with the standard ResNet training set
   <img src="../../.github/in1k-titan-ts-amp.png">
 </p>
 
-## TorchShard + ZeRo
+## TorchShard + ZeRO
 
 ZeRo is the core of [DeepSpeed](https://github.com/microsoft/DeepSpeed). 
 Please refer to the PyTorch distributed optimizer [ZeroRedundancyOptimizer](https://pytorch.org/docs/master/distributed.optim.html?highlight=zero#torch.distributed.optim.ZeroRedundancyOptimizer).
