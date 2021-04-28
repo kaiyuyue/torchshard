@@ -47,7 +47,8 @@ python3 main.py --multiprocessing-distributed --batch-size 400 --enable-model-pa
 
 ## Validation
 
-See [valid.ipynb](valid.ipynb).
+Put [paly_image.ipynb](https://github.com/karpathy/minGPT/blob/master/play_image.ipynb) in this folder.
+Skip the training step and run the inference part to check out visualization results.
 
 ## Benchmark
 

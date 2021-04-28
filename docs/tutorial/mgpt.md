@@ -29,30 +29,30 @@ Then we can parallelize four components of GPT:
 We parallelize `torch.nn.Embedding` layer into `torchshard.nn.ParallelEmbedding` layer,
 which also supports two parallel manners - row and column parallel.
 Here we use its row parallel manner.
-See [`self.tok_emb`](../../projects/minGPT/mingpt/model.py#L177-L178) code.
+See [`self.tok_emb`](../../projects/minGPT/mingpt/model.py#L177-L181) code.
 
 - **Self-Attention Module**.
 The self-attention module contains four linear layers.
 We parallelize former three layers in the column dimension and the last one in the row dimension.
-See [`class ParallelCausalSelfAttention`](../../projects/minGPT/mingpt/model.py#L87) code.
+See [`class ParallelCausalSelfAttention`](../../projects/minGPT/mingpt/model.py#L85) code.
 
 - **MLP Module**.
 The MLP module contains two linear layer.
 We parallelize the first one in column and the second one in row.
-See [`self.mlp`](projects/minGPT/mingpt/model.py#L149-L154) code.
+See [`self.mlp`](projects/minGPT/mingpt/model.py#L148-L163) code.
 
 - **Cross-Entropy Loss**.
 The minGPT is trained with cross-entropy loss.
 We parallelize the linear layer of the decoder head with the column parallel dimension.
-See [`self.head`](../../projects/minGPT/mingpt/model.py#L189) code.
+See [`self.head`](../../projects/minGPT/mingpt/model.py#L190-L193) code.
 Furthermore, its following module is the cross-entropy loss function.
 We make loss parallel as well.
-See [`loss function`](../../projects/minGPT/mingpt/model.py#L301) code.
+See [`loss function`](../../projects/minGPT/main.py#L211-L214) code.
 
 ## Mixed Key-Query-Value Layer
 
 We fire key, query and value tensors from a single linear layer.
-This is different from the original implementation, which use three isolated layers.
+This is different from the original implementation, which uses three isolated layers.
 The mixed key-query-value layer is friendly for model parallel manner because it doesn't hurt outputs, gradients, and attention matrix.
 In contrast, the implementation of using three isolated layers will hurt the attention matrix order and bring the chaos to the learning.
 
@@ -114,7 +114,7 @@ The script is `valid.ipynb`, which is just copied from [play_image.ipynb](https:
   <img src="../../.github/minGPT-ts-result.png">
 </p>
 
-TorchShard works well. :icecream:
+OK. TorchShard works well. :icecream:
 
 <p><br/></p>
 
