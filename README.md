@@ -48,7 +48,8 @@ x = m(x)                                                  # forward
 loss = ts.nn.functional.parallel_cross_entropy(x, y)      # parallel loss function
 loss.backward()                                           # backward
 
-torch.save(ts.collect_state(m, m.state_dict()), 'm.pt')   # save model state
+torch.save(
+  ts.collect_state_dict(m, m.state_dict()), 'm.pt')       # save model state
 ```
 
 ## Performance
