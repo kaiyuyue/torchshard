@@ -15,7 +15,7 @@ def get_group():
 
 
 def get_world_size():
-    return torch.distributed.get_world_size(group=get_group())
+    return torch.distributed.get_world_size()
 
 
 def get_rank():
