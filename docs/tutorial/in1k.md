@@ -80,13 +80,24 @@ Then we can scale it up with increasing the number of classes, i.e., the output 
 ## Performance
 
 This section shows GPU memory cost with the standard ResNet training settings (i.e., input size 224 and batch size 256) under different parallel strategies.
-Parallelism is with 8-way data parallel and 8-way model parallel.
+Parallelism is with 8-way data parallel and N-way model parallel (N = the number of GPUs).
 
-- Training ResNet-50 on 8 NVIDIA TITAN-XP (12196 MiB) GPUs.
+- Training ResNet-50 on 8 NVIDIA TITAN-XP (12196 MiB) GPUs for the number of classes &le; 1000000, 16 GPUs for 2000000.
 
 <p align="center">
   <img src="../../.github/in1k-titan-ts.png">
 </p>
+
+| number of classes | precision mode | batch size | number of GPUs | parallel dim | iteration time (s) |
+| :---------------: |:-------------: | :--------: | :------------: | :----------: | :----------------: |
+| 1000              | FP32           | 256        | 8              |  None        | 0.508 |
+| 1000000           | FP32           | 256        | 8              | `0`          | 0.710 |
+| 1000000           | FP32           | 256        | 8              | `1` or `-1`  | 0.578 |
+| 2000000           | FP32           | 256        | 16             | `1` or `-1`  | 0.780 |
+
+**Note**:
+- The iteration time is sampled in the middle of an epoch training.
+- The training speed can be boosted, by using AMP, if running on GPUs with [Tensor Cores](https://www.nvidia.com/en-us/data-center/tensor-cores/), such as NVIDIA V100 or A100. Currently, I have no these types of machine to benchmark out more results.
 
 ## Results
 

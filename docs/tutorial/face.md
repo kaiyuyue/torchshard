@@ -116,18 +116,41 @@ But to make each rank has an identical shard shape, we set it in `--num-classes 
   <img src="../../.github/arcf-titan-ts-amp.png">
 </p>
 
-**Note**:
-The training speed can be boosted if running on GPUs with [Tensor Cores](https://www.nvidia.com/en-us/data-center/tensor-cores/), such as NVIDIA V100 or A100.
-Currently, I have no these types of machine to benchmark out more results.
-The results may be updated once I have or if someone could help me. :cry:
+| number of classes | precision mode | batch size | number of GPUs | parallel dim | iteration time (s) |
+| :---------------: |:-------------: | :--------: | :------------: | :----------: | :----------------: |
+| 85744             | FP32           | 512        | 8              |  None        | 0.526 |
+| 85744             | AMP            | 512        | 8              |  None        | 0.470 |
+| 85744             | FP32           | 512        | 8              | `1` or `-1`  | 0.520 |
+| 85744             | AMP            | 512        | 8              | `1` or `-1`  | 0.462 |
+| 1000000           | FP32           | 256        | 8              | `1` or `-1`  | 0.515 |
+| 1000000           | AMP            | 256        | 8              | `1` or `-1`  | 0.458 |
+| 4000000           | FP32           | 64         | 8              | `1` or `-1`  | 0.467 |
+| 4000000           | AMP            | 64         | 8              | `1` or `-1`  | 0.450 |
 
-## FP32 Training Results
+**Note**:
+- The iteration time is sampled in the middle of an epoch training.
+- If your GPU memory is large enough to allow you to put a multitude of images into it, feel free to increase your batch size, i.e. 512.
+- The training speed can be boosted, by using AMP, if running on GPUs with [Tensor Cores](https://www.nvidia.com/en-us/data-center/tensor-cores/), such as NVIDIA V100 or A100. Currently, I have no these types of machine to benchmark out more results.
+
+
+## Results
+
+<!-- START TABLE -->
+<table><tbody>
+<!-- TABLE HEADER -->
+<th valign="bottom">precision mode</th> <th valign="bottom">accuracy on LFW</th>
+<!-- TABLE BODY -->
+<tr><td align="center">FP32</td><td align="center">99.783 &plusmn; 0.224</td></tr>
+<tr><td align="center">AMP</td><td align="center">99.833 &plusmn; 0.197</td></tr>
+</tbody></table>
+
+### FP32 Training Results
 
 <p>
 After training ArcFace model with TorchShard, we test it on
 <a href="http://vis-www.cs.umass.edu/lfw/">LFW</a>
 to show that TorchShard has no accuracy loss.
-We didn't choose the best model, just use the last saved checkpoint after training convergence.
+We didn't cherry-pick the best model, just use the last saved checkpoint after training convergence.
 We achieve 99.783 &plusmn; 0.224 accuracy on LFW after training 35 epochs.
 </p>
 
@@ -142,11 +165,11 @@ Equal Error Rate (EER): 0.003
   <img src="../../.github/arcf-titan-ts-curve.png">
 </p>
 
-## AMP Training Results
+### AMP Training Results
 
 <p>
 Here we show that training ArcFace model with both TorchShard and AMP has no accuracy loss.
-We didn't choose the best model, just use the last saved checkpoint after training convergence.
+We didn't cherry-pick the best model, just use the last saved checkpoint after training convergence.
 We achieve 99.833 &plusmn; 0.197 accuracy on LFW after training 35 epochs.
 </p>
 
