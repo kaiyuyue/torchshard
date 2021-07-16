@@ -6,7 +6,8 @@
 <p align="center">
   <a href="./docs"><strong>Documents</strong></a> |
   <a href="./projects"><strong>Projects</strong></a> |
-  <a href="./docs#api-references---python"><strong>API References</strong></a>
+  <a href="./docs#api-references---python"><strong>API References</strong></a> |
+  <a href="https://medium.com/pytorch/torchshard-a31fcbfdc354"><strong>PyTorch Medium Blog</strong></a>
 </p>
 
 <p align="center">
@@ -49,7 +50,7 @@ loss = ts.nn.functional.parallel_cross_entropy(x, y)      # parallel loss functi
 loss.backward()                                           # backward
 
 torch.save(
-  ts.collect_state_dict(m, m.state_dict()), 'm.pt')       # save model state
+    ts.collect_state_dict(m, m.state_dict()), 'm.pt')     # save model state
 ```
 
 ## Performance
