@@ -36,7 +36,7 @@ More options in [INSTALL.md](./INSTALL.md).
 ```python
 import torchshard as ts
 
-ts.init_process_group(group_size=2)                       # init parallel groups
+ts.distributed.init_process_group(group_size=2)           # init parallel groups
 
 m = torch.nn.Sequential(
     torch.nn.Linear(20, 30, bias=True),               
